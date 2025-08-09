@@ -3,8 +3,8 @@
   command = "npm run build"
 
 [build.environment]
-SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_ANON_KEY,VITE_SUPABASE_URL"
-
+  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_ANON_KEY,VITE_SUPABASE_URL"
+  NODE_VERSION = "18"
 
 [functions]
   directory = "netlify/functions"
@@ -14,9 +14,6 @@ SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_ANON_KEY,VITE_SUPABASE_URL"
   from = "/*"
   to = "/index.html"
   status = 200
-
-[build.environment]
-  NODE_VERSION = "18"
 
 # Headers para segurança
 [[headers]]
