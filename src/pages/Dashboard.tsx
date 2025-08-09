@@ -9,6 +9,26 @@ import { useAuth } from '../contexts/AuthContext';
 import { Plus, Calendar, DollarSign, ShoppingCart, Phone, Clock, Filter } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+import { useNavigate } from 'react-router-dom';
+
+export function Dashboard() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  // Se o user ainda não carregou
+  if (user === undefined) {
+    return <div>Carregando...</div>;
+  }
+
+  // Se não tem usuário logado
+  if (!user) {
+    navigate('/login');
+    return null;
+  }
+
+  // resto do seu código...
+}
+
 const orderSchema = z.object({
   customerId: z.string().min(1, 'Selecione um cliente'),
   customerName: z.string().optional(),
@@ -527,24 +547,32 @@ export function Dashboard() {
                   </ul>
                 </div>
 
-                <div>
-                  <div className="flex items-center text-sm text-gray-600 mb-2">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    Entrega: {format(parseISO(order.delivery_date), 'dd/MM/yyyy', { locale: ptBR })}
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Clock className="h-4 w-4 mr-1" />
-                    Criado: {format(parseISO(order.created_at), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
-                  </div>
-                  {order.notes && (
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-600">
-                        <strong>Obs:</strong> {order.notes}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
+                import { parseISO, isValid, format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+
+<div>
+  <div className="flex items-center text-sm text-gray-600 mb-2">
+    <Calendar className="h-4 w-4 mr-1" />
+    Entrega:{' '}
+    {order.delivery_date && isValid(parseISO(order.delivery_date))
+      ? format(parseISO(order.delivery_date), 'dd/MM/yyyy', { locale: ptBR })
+      : 'Data inválida'}
+  </div>
+  <div className="flex items-center text-sm text-gray-600">
+    <Clock className="h-4 w-4 mr-1" />
+    Criado:{' '}
+    {order.created_at && isValid(parseISO(order.created_at))
+      ? format(parseISO(order.created_at), 'dd/MM/yyyy HH:mm', { locale: ptBR })
+      : 'Data inválida'}
+  </div>
+  {order.notes && (
+    <div className="mt-2">
+      <p className="text-sm text-gray-600">
+        <strong>Obs:</strong> {order.notes}
+      </p>
+    </div>
+  )}
+</div>
 
               {statusConfig[order.status].next && (
                 <div className="flex justify-end">
