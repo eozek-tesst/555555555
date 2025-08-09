@@ -573,21 +573,18 @@ import { ptBR } from 'date-fns/locale'
     </div>
   )}
 </div>
-
-              {statusConfig[order.status].next && (
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => updateOrderStatus(order.id, statusConfig[order.status].next!)}
-                    className="px-3 py-1 text-sm font-medium text-amber-600 border border-amber-600 rounded-md hover:bg-amber-50 transition-colors"
-                  >
-                    Marcar como {statusConfig[statusConfig[order.status].next!].label}
-                  </button>
-                </div>
-              )}
-            </div>
-          ))
-        )}
+{orders.map(order => (
+  <div key={order.id}>
+    {/* Seu conteúdo aqui */}
+    {statusConfig[order.status].next && (
+      <div className="flex justify-end">
+        <button
+          onClick={() => updateOrderStatus(order.id, statusConfig[order.status].next!)}
+          className="px-3 py-1 text-sm font-medium text-amber-600 border border-amber-600 rounded-md hover:bg-amber-50 transition-colors"
+        >
+          Marcar como {statusConfig[statusConfig[order.status].next!].label}
+        </button>
       </div>
-    </div>
-  );
-}
+    )}
+  </div>
+))}
